@@ -61,17 +61,11 @@ public class Management extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        cboColumn = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        lblName = new javax.swing.JLabel();
-        txtType = new javax.swing.JTextField();
-        cboType = new javax.swing.JComboBox<>();
-        chkN = new javax.swing.JCheckBox();
-        chkP = new javax.swing.JCheckBox();
         btnCreate = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
-        cboColumn = new javax.swing.JComboBox<>();
         jPanel10 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -283,42 +277,22 @@ public class Management extends javax.swing.JFrame {
 
         jLabel11.setText("Column Number");
 
-        lblName.setText("Column name");
-
-        cboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "int", "float", "double", "char(10)", "varchar(25)", "nvarchar(45)" }));
-
-        chkN.setText("Not Null");
-
-        chkP.setText("Primary Key");
+        cboColumn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11" }));
+        cboColumn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboColumnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblName)
-                .addGap(18, 18, 18)
-                .addComponent(txtType, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(cboType, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(chkN)
-                .addGap(32, 32, 32)
-                .addComponent(chkP)
-                .addGap(39, 39, 39))
+            .addGap(0, 582, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName)
-                    .addComponent(txtType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chkN)
-                    .addComponent(chkP))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 33, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -342,29 +316,6 @@ public class Management extends javax.swing.JFrame {
 
         btnCreate.setText("Create");
 
-        cboColumn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11" }));
-        cboColumn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboColumnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cboColumn, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(cboColumn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
@@ -385,22 +336,21 @@ public class Management extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(cboColumn, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(63, 63, 63))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel10)
-                        .addComponent(jLabel11)
-                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(cboColumn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
+                .addGap(46, 46, 46)
                 .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -604,56 +554,7 @@ public class Management extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitMousePressed
 
     private void cboColumnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboColumnActionPerformed
-       /*jPanel6.removeAll(); // Clear components in jPanel6
 
-        int selectedCount = Integer.parseInt(cboColumn.getSelectedItem().toString());
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
-        // Horizontal and Vertical groups
-        javax.swing.GroupLayout.ParallelGroup hGroup = layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING);
-        javax.swing.GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
-
-        for (int i = 0; i < selectedCount; i++) {
-            // Create "Column Name" label
-            javax.swing.JLabel lblName = new javax.swing.JLabel("Column Name " + (i + 1));
-
-            // Create components dynamically
-            javax.swing.JTextField txtType = new javax.swing.JTextField();
-            javax.swing.JComboBox<String> cboType = new javax.swing.JComboBox<>(new String[]{"Select", "Int", "Varchar"});
-            javax.swing.JCheckBox chkN = new javax.swing.JCheckBox("Not Null");
-            javax.swing.JCheckBox chkP = new javax.swing.JCheckBox("Primary Key");
-
-            // Add components to GroupLayout
-            hGroup.addGroup(layout.createSequentialGroup()
-                .addComponent(lblName, 100, 100, 150)  // Column name label width
-                .addComponent(txtType, 100, 100, 150)  // TextField width
-                .addComponent(cboType, 100, 100, 150)  // ComboBox width
-                .addComponent(chkN)                    // CheckBox for "Not Null"
-                .addComponent(chkP));                  // CheckBox for "Primary Key"
-
-            vGroup.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(lblName)
-                .addComponent(txtType)
-                .addComponent(cboType)
-                .addComponent(chkN)
-                .addComponent(chkP));
-        }
-
-        // Apply layout groups
-        layout.setHorizontalGroup(hGroup);
-        layout.setVerticalGroup(vGroup);
-
-        // Refresh components
-        jPanel6.revalidate();
-        jPanel6.repaint();*/
-       
-        jPanel6.removeAll(); // Clear existing components in jPanel6
-
-        // Get the selected count from the combo box
         int selectedCount = Integer.parseInt(cboColumn.getSelectedItem().toString());
 
         // Set up GroupLayout for jPanel6
@@ -671,30 +572,32 @@ public class Management extends javax.swing.JFrame {
         java.awt.Dimension comboBoxSize = new java.awt.Dimension(100, 25);
         java.awt.Dimension checkBoxSize = new java.awt.Dimension(80, 25);
 
-        // Loop to create the components dynamically
         for (int i = 0; i < selectedCount; i++) {
-            // Create "Column Name" label
+            
             javax.swing.JLabel lblName = new javax.swing.JLabel("Column Name " + (i + 1));
 
-            // Create components
-            javax.swing.JTextField txtType = new javax.swing.JTextField("Type " + (i + 1));
+            javax.swing.JTextField txtType = new javax.swing.JTextField();
             txtType.setPreferredSize(textFieldSize);
 
             javax.swing.JComboBox<String> cboType = new javax.swing.JComboBox<>(new String[]{"Select", "int", "float", "double", "char(10)", "varchar(25)", "nvarchar(45)"});
             cboType.setPreferredSize(comboBoxSize);
 
-            javax.swing.JCheckBox chkN = new javax.swing.JCheckBox("Not Null " + (i + 1));
+            javax.swing.JCheckBox chkN = new javax.swing.JCheckBox("Not Null ");
             chkN.setPreferredSize(checkBoxSize);
 
-            javax.swing.JCheckBox chkP = new javax.swing.JCheckBox("Primary Key " + (i + 1));
+            javax.swing.JCheckBox chkP = new javax.swing.JCheckBox("Primary Key ");
             chkP.setPreferredSize(checkBoxSize);
 
             // Add components to horizontal and vertical groups
             hGroup.addGroup(layout.createSequentialGroup()
-                .addComponent(lblName, 100, 100, 150)  // Column name label width
+                .addComponent(lblName, 100, 100, 150) 
+                .addGap(20) 
                 .addComponent(txtType)
+                .addGap(40) 
                 .addComponent(cboType)
+                .addGap(40) 
                 .addComponent(chkN)
+                .addGap(40)
                 .addComponent(chkP));
 
             vGroup.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -759,9 +662,6 @@ public class Management extends javax.swing.JFrame {
     private javax.swing.JPanel btnService;
     private javax.swing.JPanel btnTable;
     private javax.swing.JComboBox<String> cboColumn;
-    private javax.swing.JComboBox<String> cboType;
-    private javax.swing.JCheckBox chkN;
-    private javax.swing.JCheckBox chkP;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -785,11 +685,8 @@ public class Management extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblName;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtType;
     // End of variables declaration//GEN-END:variables
 }
