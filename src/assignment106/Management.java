@@ -68,6 +68,33 @@ public class Management extends javax.swing.JFrame {
         }
     }
     
+    public void showCustomer(){ 
+        ConnectionDetail();
+        try{
+            con = DriverManager.getConnection(url, username, password);
+            
+            String sql = "select * from customer";
+            pstmt = con.prepareStatement(sql);
+            rs = pstmt.executeQuery(); 
+            DefaultTableModel m = (DefaultTableModel)tblLogin.getModel();
+            Object[] row = new Object[7];
+            m.setRowCount(0);
+            while(rs.next()){ 
+                row[0] = rs.getString("Customer_ID");
+                row[1] = rs.getString("Customer_Name");
+                row[2] = rs.getString("Customer_Add");
+                row[3] = rs.getString("Customer_Tel");
+                row[4] = rs.getString("Customer_Email");
+                row[5] = rs.getString("Customer_Gender");
+                row[6] = rs.getString("Customer_Age");
+  
+                m.addRow(row);
+            }
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }
+    
     void setColor(JPanel panel){ 
         panel.setBackground(new Color(85,65,118));
     }
@@ -124,11 +151,11 @@ public class Management extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jTextField4 = new javax.swing.JTextField();
+        cboCus = new javax.swing.JComboBox<>();
+        txtCusSearch = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblCus = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -136,16 +163,16 @@ public class Management extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
+        btnCusAdd = new javax.swing.JButton();
+        btnCusUpdate = new javax.swing.JButton();
+        btnCusDelete = new javax.swing.JButton();
+        txtCusId = new javax.swing.JTextField();
+        txtCusName = new javax.swing.JTextField();
+        txtCusAdd = new javax.swing.JTextField();
+        txtCusTel = new javax.swing.JTextField();
+        txtCusEmail = new javax.swing.JTextField();
+        txtCusGender = new javax.swing.JTextField();
+        txtCusAge = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -180,18 +207,18 @@ public class Management extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        cboTMTable = new javax.swing.JComboBox<>();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblTM = new javax.swing.JTable();
         jLabel24 = new javax.swing.JLabel();
-        jTextField19 = new javax.swing.JTextField();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
+        txtCName = new javax.swing.JTextField();
+        cboTMType = new javax.swing.JComboBox<>();
+        chkTMN = new javax.swing.JCheckBox();
+        chkTMP = new javax.swing.JCheckBox();
+        btnTMAdd = new javax.swing.JButton();
+        btnTMUpdate = new javax.swing.JButton();
+        btnTMDeleteC = new javax.swing.JButton();
+        btnTMDropT = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -509,7 +536,6 @@ public class Management extends javax.swing.JFrame {
             }
         });
 
-        cboLogin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         cboLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboLoginActionPerformed(evt);
@@ -589,22 +615,24 @@ public class Management extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab4", jPanel12);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        cboCus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
         jButton5.setText("Search");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblCus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        tblCus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCusMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblCus);
 
         jLabel9.setText("Coustomer_ID");
 
@@ -620,27 +648,42 @@ public class Management extends javax.swing.JFrame {
 
         jLabel18.setText("Customer_Age");
 
-        jButton6.setText("ADD");
-
-        jButton7.setText("UPDATE");
-
-        jButton8.setText("DELETE");
-
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+        btnCusAdd.setText("ADD");
+        btnCusAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
+                btnCusAddActionPerformed(evt);
             }
         });
 
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+        btnCusUpdate.setText("UPDATE");
+        btnCusUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                btnCusUpdateActionPerformed(evt);
             }
         });
 
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
+        btnCusDelete.setText("DELETE");
+        btnCusDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
+                btnCusDeleteActionPerformed(evt);
+            }
+        });
+
+        txtCusTel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCusTelActionPerformed(evt);
+            }
+        });
+
+        txtCusEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCusEmailActionPerformed(evt);
+            }
+        });
+
+        txtCusGender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCusGenderActionPerformed(evt);
             }
         });
 
@@ -651,7 +694,7 @@ public class Management extends javax.swing.JFrame {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGap(65, 65, 65)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCusAdd, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel14Layout.createSequentialGroup()
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -666,14 +709,14 @@ public class Management extends javax.swing.JFrame {
                             .addComponent(jLabel15))
                         .addGap(29, 29, 29)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCusId, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel14Layout.createSequentialGroup()
                                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel14Layout.createSequentialGroup()
                                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jTextField7)
-                                            .addComponent(jTextField6)
-                                            .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
+                                            .addComponent(txtCusAdd)
+                                            .addComponent(txtCusName)
+                                            .addComponent(txtCusTel, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
                                         .addGap(165, 165, 165)
                                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel17)
@@ -681,22 +724,22 @@ public class Management extends javax.swing.JFrame {
                                             .addComponent(jLabel18)))
                                     .addGroup(jPanel14Layout.createSequentialGroup()
                                         .addGap(148, 148, 148)
-                                        .addComponent(jButton7)))
+                                        .addComponent(btnCusUpdate)))
                                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel14Layout.createSequentialGroup()
                                         .addGap(19, 19, 19)
                                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jButton8)
-                                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(btnCusDelete)
+                                            .addComponent(txtCusAge, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPanel14Layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                            .addComponent(txtCusEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCusGender, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                     .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboCus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCusSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(119, 119, 119)
                         .addComponent(jButton5)))
                 .addContainerGap(82, Short.MAX_VALUE))
@@ -710,8 +753,8 @@ public class Management extends javax.swing.JFrame {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboCus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCusSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -720,38 +763,38 @@ public class Management extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCusEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCusGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCusAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(43, 43, 43)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton6)
-                            .addComponent(jButton7)
-                            .addComponent(jButton8))
+                            .addComponent(btnCusAdd)
+                            .addComponent(btnCusUpdate)
+                            .addComponent(btnCusDelete))
                         .addGap(43, 43, 43))
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCusId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCusName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCusAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCusTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(106, 106, 106))))
         );
 
@@ -1003,9 +1046,14 @@ public class Management extends javax.swing.JFrame {
 
         jLabel23.setText("Table Name");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTMTable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        cboTMTable.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboTMTableItemStateChanged(evt);
+            }
+        });
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblTM.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -1013,28 +1061,48 @@ public class Management extends javax.swing.JFrame {
 
             }
         ));
-        jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblTM.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable4MouseClicked(evt);
+                tblTMMouseClicked(evt);
             }
         });
-        jScrollPane5.setViewportView(jTable4);
+        jScrollPane5.setViewportView(tblTM);
 
         jLabel24.setText("Column Name");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        cboTMType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
-        jCheckBox1.setText("Not Null");
+        chkTMN.setText("Not Null");
 
-        jCheckBox2.setText("Primary Key");
+        chkTMP.setText("Primary Key");
 
-        jButton13.setText("Add Column");
+        btnTMAdd.setText("Add Column");
+        btnTMAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTMAddActionPerformed(evt);
+            }
+        });
 
-        jButton14.setText("Update Column");
+        btnTMUpdate.setText("Update Column");
+        btnTMUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTMUpdateActionPerformed(evt);
+            }
+        });
 
-        jButton15.setText("Delete Column");
+        btnTMDeleteC.setText("Delete Column");
+        btnTMDeleteC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTMDeleteCActionPerformed(evt);
+            }
+        });
 
-        jButton16.setText("Drop Table");
+        btnTMDropT.setText("Drop Table");
+        btnTMDropT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTMDropTActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1044,30 +1112,30 @@ public class Management extends javax.swing.JFrame {
                 .addGap(88, 88, 88)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton13)
+                        .addComponent(btnTMAdd)
                         .addGap(52, 52, 52)
-                        .addComponent(jButton14)
+                        .addComponent(btnTMUpdate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton15)
+                        .addComponent(btnTMDeleteC)
                         .addGap(59, 59, 59)
-                        .addComponent(jButton16))
+                        .addComponent(btnTMDropT))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addComponent(jLabel23)
                             .addGap(39, 39, 39)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cboTMTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel24)
                                 .addGap(33, 33, 33)
-                                .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtCName, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(47, 47, 47)
-                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cboTMType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(49, 49, 49)
-                                .addComponent(jCheckBox1)
+                                .addComponent(chkTMN)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox2)))))
+                                .addComponent(chkTMP)))))
                 .addContainerGap(99, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -1076,22 +1144,22 @@ public class Management extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboTMTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
-                    .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2))
+                    .addComponent(txtCName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboTMType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkTMN)
+                    .addComponent(chkTMP))
                 .addGap(75, 75, 75)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton13)
-                    .addComponent(jButton14)
-                    .addComponent(jButton15)
-                    .addComponent(jButton16))
+                    .addComponent(btnTMAdd)
+                    .addComponent(btnTMUpdate)
+                    .addComponent(btnTMDeleteC)
+                    .addComponent(btnTMDropT))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
@@ -1333,17 +1401,17 @@ public class Management extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLoginDeleteActionPerformed
 
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
+    private void txtCusGenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCusGenderActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField10ActionPerformed
+    }//GEN-LAST:event_txtCusGenderActionPerformed
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+    private void txtCusEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCusEmailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
+    }//GEN-LAST:event_txtCusEmailActionPerformed
 
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+    private void txtCusTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCusTelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
+    }//GEN-LAST:event_txtCusTelActionPerformed
 
     private void btnModificationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificationMouseClicked
         jTabbedPane1.setSelectedIndex(4);
@@ -1371,9 +1439,9 @@ public class Management extends javax.swing.JFrame {
         tableColor(btnModification);
     }//GEN-LAST:event_btnOtherTableMousePressed
 
-    private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
+    private void tblTMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTMMouseClicked
        
-    }//GEN-LAST:event_jTable4MouseClicked
+    }//GEN-LAST:event_tblTMMouseClicked
 
     private void tblLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLoginMouseClicked
         DefaultTableModel model = (DefaultTableModel)tblLogin.getModel();
@@ -1433,19 +1501,261 @@ public class Management extends javax.swing.JFrame {
     private void cboLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLoginActionPerformed
         ConnectionDetail();
         try { 
-            String sql = "describe "+cboLogin.getSelectedItem()+""; 
-            //String sql = "select * from "+cboTable.getSelectedItem()+"";
+            //String sql = "describe login"; 
+            String sql = "select * from login";
             
             
-            PreparedStatement pstmt = con.prepareStatement(sql); 
-            ResultSet rs = pstmt.executeQuery(); 
+            pstmt = con.prepareStatement(sql); 
+            rs = pstmt.executeQuery(); 
             
             tblLogin.setModel(DbUtils.resultSetToTableModel(rs));
             
+            
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(this, e);
+        }        
+    }//GEN-LAST:event_cboLoginActionPerformed
+
+    private void btnCusAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCusAddActionPerformed
+        ConnectionDetail();
+        Object[] row = new Object[7];
+        
+        row[0] = txtCusId.getText();
+        row[1] = txtCusName.getText();
+        row[2] = txtCusAdd.getText();
+        row[3] = txtCusTel.getText();
+        row[4] = txtCusEmail.getText();
+        row[5] = txtCusGender.getText();
+        row[6] = txtCusAge.getText();
+        DefaultTableModel model = (DefaultTableModel)tblCus.getModel(); 
+        model.addRow(row);
+
+        try{ 
+            con = DriverManager.getConnection(url, username, password);
+            String sql = "insert into customer values ('"+txtCusId.getText()+"', '"+txtCusName.getText()+"', "
+                    + " '"+txtCusAdd.getText()+"', '"+txtCusTel.getText()+"', "
+                    + " '"+txtCusEmail.getText()+"', '"+txtCusGender.getText()+"', "
+                    + " '"+txtCusAge.getText()+"')";
+            pstmt = con.prepareStatement(sql); 
+            pstmt.execute(sql);
+            showCustomer();
+            
+            txtCusId.setText(null);
+            txtCusName.setText(null);
+            txtCusAdd.setText(null);
+            txtCusTel.setText(null);
+            txtCusEmail.setText(null);
+            txtCusGender.setText(null);
+            txtCusAge.setText(null);
+            
+            JOptionPane.showMessageDialog(this, "Inserted Successful");
+
         }catch(Exception e){ 
             JOptionPane.showMessageDialog(this, e);
         }
-    }//GEN-LAST:event_cboLoginActionPerformed
+    }//GEN-LAST:event_btnCusAddActionPerformed
+
+    private void btnCusUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCusUpdateActionPerformed
+        DefaultTableModel model = (DefaultTableModel)tblCus.getModel();
+        int index = tblCus.getSelectedRow();
+        if (index >= 0){ 
+            ConnectionDetail();
+            try{ 
+                con = DriverManager.getConnection(url, username, password);
+                String sql = "update customer set Customer_ID = '"+txtCusId.getText()+"', Customer_Name = '"+txtCusName.getText()+"', "
+                        + " Customer_Add = '"+txtCusAdd.getText()+"', Customer_Tel = '"+txtCusTel.getText()+"', "
+                        + " Customer_Email = '"+txtCusEmail.getText()+"', Customer_Gender = '"+txtCusGender.getText()+"', "
+                        + " Customer_Age = '"+txtCusAge.getText()+"' where Customer_ID = '"+txtCusId.getText()+"'";
+                        //where username = '"+txtLoginId.getText()+"'";
+                pstmt = con.prepareStatement(sql); 
+                pstmt.executeUpdate(sql);
+                showCustomer();
+                JOptionPane.showMessageDialog(null, "Update Success");
+                
+            }catch(Exception e){ 
+                JOptionPane.showMessageDialog(this, e);
+            }
+        }else{ 
+            JOptionPane.showMessageDialog(this, "Please select a row to update");
+        }
+    }//GEN-LAST:event_btnCusUpdateActionPerformed
+
+    private void tblCusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCusMouseClicked
+        DefaultTableModel model = (DefaultTableModel)tblCus.getModel();
+        int index = tblCus.getSelectedRow();
+        txtCusId.setText(model.getValueAt(index, 0).toString());
+        txtCusName.setText(model.getValueAt(index, 1).toString());
+        txtCusAdd.setText(model.getValueAt(index, 2).toString());
+        txtCusTel.setText(model.getValueAt(index, 3).toString());
+        txtCusEmail.setText(model.getValueAt(index, 4).toString());
+        txtCusGender.setText(model.getValueAt(index, 5).toString());
+        txtCusAge.setText(model.getValueAt(index, 6).toString());
+                
+    }//GEN-LAST:event_tblCusMouseClicked
+
+    private void btnCusDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCusDeleteActionPerformed
+        DefaultTableModel model = (DefaultTableModel)tblCus.getModel();
+        int index = tblCus.getSelectedRow();
+        ConnectionDetail();
+        try{  
+            con = DriverManager.getConnection(url, username, password);
+            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete?",  "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                String sql = "delete from customer where Customer_ID = '"+txtCusId.getText()+"'";
+                pstmt = con.prepareStatement(sql);
+                pstmt.execute(sql);
+                showCustomer();
+                JOptionPane.showMessageDialog(this, "Deleted Successful");
+            } else {
+                JOptionPane.showMessageDialog(this, "Deletion Cancelled");
+            }
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }//GEN-LAST:event_btnCusDeleteActionPerformed
+
+    private void DisplayDataTM(){ 
+        
+        ConnectionDetail();
+        try{
+            if(!(cboTMTable.getSelectedItem().equals("Select"))){
+            
+            String sql = "select * from "+cboTMTable.getSelectedItem()+" ";
+            PreparedStatement pstmt = con.prepareStatement(sql); 
+            rs = pstmt.executeQuery();
+            
+            tblTM.setModel(DbUtils.resultSetToTableModel(rs));
+            }
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }
+    
+    private void btnTMAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTMAddActionPerformed
+        String cName = txtCName.getText();
+        String dType = cboTMType.getSelectedItem().toString(); 
+        String st; 
+        String pKey; 
+        if (chkTMN.isSelected()){ 
+            st = " NOT NULL"; 
+        } 
+        else{ 
+            st = "NULL"; 
+        }
+        
+        if (chkTMP.isSelected()){ 
+            pKey = "Primary Key"; 
+        } 
+        else{ 
+           pKey = ""; 
+        } 
+        
+        try{ 
+            ConnectionDetail();
+            
+            String query = "alter table "+cboTMTable.getSelectedItem()+" add "+cName+" "+dType+" "+st+" "+pKey+""; 
+            
+            pstmt = con.prepareStatement(query); 
+            pstmt.execute(); 
+            JOptionPane.showMessageDialog(this, "New Colum is added!!!"); 
+            DisplayDataTM();
+            
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(this, e);
+                    
+        }
+    }//GEN-LAST:event_btnTMAddActionPerformed
+
+    private void btnTMUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTMUpdateActionPerformed
+        int index = tblTM.getSelectedRow();
+        String oldName = tblTM.getValueAt(index, 0).toString();
+        String newName = txtCName.getText();
+        String dType = cboTMType.getSelectedItem().toString();
+        String st;
+        if (chkTMN.isSelected()){ 
+            st = "NOT NULL"; 
+        } 
+        else{ 
+            st = "NULL"; 
+        }
+        try{ 
+            ConnectionDetail();
+            
+            String sql = "alter table "+cboTMTable.getSelectedItem()+" change column "+oldName+" "+newName+" "+dType+" "+st+""; 
+            
+            pstmt = con.prepareStatement(sql); 
+            pstmt.execute(); 
+            JOptionPane.showMessageDialog(this, "Colum updated is successful!!!"); 
+            DisplayDataTM();
+            
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(this, e);          
+        }
+    }//GEN-LAST:event_btnTMUpdateActionPerformed
+
+    private void btnTMDeleteCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTMDeleteCActionPerformed
+        int index = tblTM.getSelectedRow();
+        String cName = tblTM.getValueAt(index, 0).toString();
+        try{ 
+           ConnectionDetail();
+            
+            String sql = "alter table "+cboTMTable.getSelectedItem()+" drop column "+cName+""; 
+            
+            pstmt = con.prepareStatement(sql); 
+            pstmt.execute(); 
+            JOptionPane.showMessageDialog(this, "Colum updated is successful!!!"); 
+            DisplayDataTM();
+            
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(this, e);            
+        }
+    }//GEN-LAST:event_btnTMDeleteCActionPerformed
+
+    private void btnTMDropTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTMDropTActionPerformed
+        
+        ConnectionDetail();
+        try{   
+            String selectedTable = cboTMTable.getSelectedItem().toString();
+            
+           // if (!cboTable.getSelectedItem().toString().equalsIgnoreCase("Select")) {
+                int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                
+                if (confirm == JOptionPane.YES_OPTION){
+            String sql = "drop table "+cboTMTable.getSelectedItem()+" ";
+            
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.execute();
+            JOptionPane.showMessageDialog(this, "Table Delected Successfully");
+            
+            cboTMTable.removeItem(cboTMTable.getSelectedItem().toString()); 
+            cboTMTable.setSelectedItem("Select");
+                }else { 
+                    JOptionPane.showMessageDialog(this, "Canceled");
+                }
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }//GEN-LAST:event_btnTMDropTActionPerformed
+    
+    private void fillCombo(){ 
+        try{ 
+            Class.forName("com.mysql.jdbc.Driver"); 
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hdit_b", "root", "mink123");
+            DatabaseMetaData dbmd = con.getMetaData();
+            String[] name = {"TABLE"} ; 
+            
+            rs = dbmd.getTables("hdit_b", null, "%", name); 
+            while(rs.next()) { 
+                cboTMTable.addItem(rs.getString("TABLE_NAME"));
+            } 
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(this, e);
+        }
+    } 
+    
+    private void cboTMTableItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTMTableItemStateChanged
+        
+    }//GEN-LAST:event_cboTMTableItemStateChanged
 //import javax.swing.JOptionPane;
 //import java.sql.DriverManager;
 //import java.sql.*;
@@ -1496,6 +1806,9 @@ public class Management extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnCusAdd;
+    private javax.swing.JButton btnCusDelete;
+    private javax.swing.JButton btnCusUpdate;
     private javax.swing.JPanel btnCustomer;
     private javax.swing.JPanel btnExit;
     private javax.swing.JPanel btnLogin;
@@ -1505,27 +1818,24 @@ public class Management extends javax.swing.JFrame {
     private javax.swing.JPanel btnModification;
     private javax.swing.JPanel btnOtherTable;
     private javax.swing.JPanel btnService;
+    private javax.swing.JButton btnTMAdd;
+    private javax.swing.JButton btnTMDeleteC;
+    private javax.swing.JButton btnTMDropT;
+    private javax.swing.JButton btnTMUpdate;
     private javax.swing.JPanel btnTable;
     private javax.swing.JComboBox<String> cboColumn;
+    private javax.swing.JComboBox<String> cboCus;
     private javax.swing.JComboBox<String> cboLogin;
+    private javax.swing.JComboBox<String> cboTMTable;
+    private javax.swing.JComboBox<String> cboTMType;
+    private javax.swing.JCheckBox chkTMN;
+    private javax.swing.JCheckBox chkTMP;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1573,11 +1883,7 @@ public class Management extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
@@ -1585,14 +1891,18 @@ public class Management extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTable tblCus;
     private javax.swing.JTable tblLogin;
+    private javax.swing.JTable tblTM;
+    private javax.swing.JTextField txtCName;
+    private javax.swing.JTextField txtCusAdd;
+    private javax.swing.JTextField txtCusAge;
+    private javax.swing.JTextField txtCusEmail;
+    private javax.swing.JTextField txtCusGender;
+    private javax.swing.JTextField txtCusId;
+    private javax.swing.JTextField txtCusName;
+    private javax.swing.JTextField txtCusSearch;
+    private javax.swing.JTextField txtCusTel;
     private javax.swing.JTextField txtLoginId;
     private javax.swing.JTextField txtLoginPassword;
     private javax.swing.JTextField txtLoginSearch;
