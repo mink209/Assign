@@ -29,7 +29,28 @@ public class Management extends javax.swing.JFrame {
     public Management() {
         initComponents();
         showProduct();
+        fillcomboTName();
     }
+    
+    private void fillcomboTName(){
+        try {
+            cboTMTable.removeAllItems();
+            cboTMTable.addItem("Select");
+            Class.forName("com.mysql.jdbc.Driver"); 
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hdit_b", "root", "Wai09787");
+            DatabaseMetaData dbmd = con.getMetaData();
+            String[] name= {"TABLE"};
+            rs = null;
+            rs = dbmd.getTables("HDIT_B", null, "%", name);
+            while(rs.next()){
+                
+                cboTMTable.addItem(rs.getString("Table_Name"));
+                
+            }
+        } catch (Exception e) {JOptionPane.showMessageDialog(this, e);}
+    }
+    
+    
     
     public void ConnectionDetail(){
         url = "jdbc:mysql://localhost:3306/hdit_b"; 
@@ -588,7 +609,7 @@ public class Management extends javax.swing.JFrame {
                     .addComponent(jLabel27))
                 .addGap(47, 47, 47)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtLoginId, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -920,7 +941,7 @@ public class Management extends javax.swing.JFrame {
                     .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton10)
                     .addComponent(jButton11)
@@ -1023,7 +1044,7 @@ public class Management extends javax.swing.JFrame {
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addGap(33, 33, 33)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
                 .addGap(46, 46, 46)
                 .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
@@ -1047,9 +1068,9 @@ public class Management extends javax.swing.JFrame {
         jLabel23.setText("Table Name");
 
         cboTMTable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
-        cboTMTable.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cboTMTableItemStateChanged(evt);
+        cboTMTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTMTableActionPerformed(evt);
             }
         });
 
@@ -1160,7 +1181,7 @@ public class Management extends javax.swing.JFrame {
                     .addComponent(btnTMUpdate)
                     .addComponent(btnTMDeleteC)
                     .addComponent(btnTMDropT))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab5", jPanel4);
@@ -1173,7 +1194,7 @@ public class Management extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
+            .addGap(0, 551, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab6", jPanel7);
@@ -1196,7 +1217,7 @@ public class Management extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
-        jTabbedPane1.setSelectedIndex(3);
+        jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_btnLoginMouseClicked
 
     private void btnCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCustomerMouseClicked
@@ -1208,7 +1229,7 @@ public class Management extends javax.swing.JFrame {
     }//GEN-LAST:event_btnServiceMouseClicked
 
     private void btnTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTableMouseClicked
-        jTabbedPane1.setSelectedIndex(0);
+        jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_btnTableMouseClicked
 
     private void btnLoginMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMousePressed
@@ -1752,25 +1773,39 @@ public class Management extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnTMDropTActionPerformed
     
-    private void fillCombo(){ 
-        try{ 
-            Class.forName("com.mysql.jdbc.Driver"); 
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hdit_b", "root", "mink123");
-            DatabaseMetaData dbmd = con.getMetaData();
-            String[] name = {"TABLE"} ; 
-            
-            rs = dbmd.getTables("hdit_b", null, "%", name); 
-            while(rs.next()) { 
-                cboTMTable.addItem(rs.getString("TABLE_NAME"));
-            } 
-        }catch(Exception e){ 
-            JOptionPane.showMessageDialog(this, e);
-        }
-    } 
-    
-    private void cboTMTableItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTMTableItemStateChanged
-        
-    }//GEN-LAST:event_cboTMTableItemStateChanged
+    public DefaultTableModel TableModelSetter(ResultSet rs)
+    {
+        DefaultTableModel model = new DefaultTableModel();
+        try {
+                int columnCount;
+                ResultSetMetaData rsmd = rs.getMetaData();
+                columnCount = rsmd.getColumnCount();
+                for (int i = 1; i <= columnCount; i++) {
+                    model.addColumn(rsmd.getColumnName(i));
+                }
+                while (rs.next()) {
+                    Object[] row = new Object[columnCount];
+                    for (int i = 1; i <= columnCount; i++) {
+                        row[i - 1] = rs.getObject(i);
+                    }
+                    model.addRow(row);
+                }
+        } catch (Exception e) {JOptionPane.showMessageDialog(this, e);}
+        return model;
+    }
+    private void cboTMTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTMTableActionPerformed
+        ConnectionDetail();
+        if(cboTMTable.getSelectedItem() == "Select" || cboTMTable.getSelectedIndex() == -1){}
+        else{
+            try {
+                    String sql = "Select * from "+cboTMTable.getSelectedItem()+";";
+                    PreparedStatement pstmt = con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+                    tblTM.setModel(TableModelSetter(rs));
+                } catch (Exception e) { JOptionPane.showMessageDialog(rootPane, cboTMTable.getSelectedItem());
+                }
+            }
+    }//GEN-LAST:event_cboTMTableActionPerformed
 //import javax.swing.JOptionPane;
 //import java.sql.DriverManager;
 //import java.sql.*;
