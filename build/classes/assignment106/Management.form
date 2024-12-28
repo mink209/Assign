@@ -569,12 +569,27 @@
                         <Component class="javax.swing.JTable" name="tblLogin">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="4" rowCount="4">
-                                <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 4" type="java.lang.Object"/>
+                              <Table columnCount="2" rowCount="0">
+                                <Column editable="true" title="username" type="java.lang.Object"/>
+                                <Column editable="true" title="password" type="java.lang.Object"/>
                               </Table>
+                            </Property>
+                            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                              <TableColumnModel selectionModel="0">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                              </TableColumnModel>
+                            </Property>
+                            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                             </Property>
                           </Properties>
                           <Events>
@@ -584,6 +599,9 @@
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JTextField" name="txtLoginId">
+                      <Properties>
+                        <Property name="enabled" type="boolean" value="false"/>
+                      </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtLoginPassword">
                     </Component>
@@ -595,12 +613,17 @@
                     <Component class="javax.swing.JTextField" name="txtLoginSearch">
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtLoginSearchActionPerformed"/>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtLoginSearchKeyTyped"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="cboLogin">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="0"/>
+                          <StringArray count="3">
+                            <StringItem index="0" value="Select"/>
+                            <StringItem index="1" value="username"/>
+                            <StringItem index="2" value="password"/>
+                          </StringArray>
                         </Property>
                       </Properties>
                       <Events>
@@ -794,8 +817,15 @@
                     <Component class="javax.swing.JComboBox" name="cboCus">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="1">
+                          <StringArray count="8">
                             <StringItem index="0" value="Select"/>
+                            <StringItem index="1" value="Customer_ID     "/>
+                            <StringItem index="2" value="Customer_Name"/>
+                            <StringItem index="3" value="Customer_Add"/>
+                            <StringItem index="4" value="Customer_Tel"/>
+                            <StringItem index="5" value="Customer_Email"/>
+                            <StringItem index="6" value="Customer_Gender"/>
+                            <StringItem index="7" value="Customer_Age"/>
                           </StringArray>
                         </Property>
                       </Properties>
@@ -821,13 +851,13 @@
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="7" rowCount="0">
-                                <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 4" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 5" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 6" type="java.lang.Object"/>
-                                <Column editable="true" title="Title 7" type="java.lang.Object"/>
+                                <Column editable="true" title="Customer_ID" type="java.lang.Object"/>
+                                <Column editable="true" title="Customer_Name" type="java.lang.Object"/>
+                                <Column editable="true" title="Customer_Add" type="java.lang.Object"/>
+                                <Column editable="true" title="Customer_Tel" type="java.lang.Object"/>
+                                <Column editable="true" title="Customer_Email" type="java.lang.Object"/>
+                                <Column editable="true" title="Customer_Gender" type="java.lang.Object"/>
+                                <Column editable="true" title="Customer_Age" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

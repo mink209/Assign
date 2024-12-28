@@ -37,7 +37,7 @@ public class Management extends javax.swing.JFrame {
             cboTMTable.removeAllItems();
             cboTMTable.addItem("Select");
             Class.forName("com.mysql.jdbc.Driver"); 
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hdit_b", "root", "Wai09787");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hdit_b", "root", "mink123");
             DatabaseMetaData dbmd = con.getMetaData();
             String[] name= {"TABLE"};
             rs = null;
@@ -56,17 +56,17 @@ public class Management extends javax.swing.JFrame {
         url = "jdbc:mysql://localhost:3306/hdit_b"; 
         driver = "com.mysql.jdbc.Driver";
         username = "root"; 
-        password = "Wai09787";
+        password = "mink123";
     }
     
     Connection con = null;
-    Statement stmt = null; 
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     String url ;
     String driver ;
     String username ; 
     String password ;
+    int count = 0;
     
     public void showProduct(){ 
         ConnectionDetail();
@@ -533,13 +533,10 @@ public class Management extends javax.swing.JFrame {
 
         tblLogin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "username", "password"
             }
         ));
         tblLogin.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -549,6 +546,8 @@ public class Management extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblLogin);
 
+        txtLoginId.setEnabled(false);
+
         jLabel12.setText("password");
 
         txtLoginSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -556,7 +555,13 @@ public class Management extends javax.swing.JFrame {
                 txtLoginSearchActionPerformed(evt);
             }
         });
+        txtLoginSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtLoginSearchKeyTyped(evt);
+            }
+        });
 
+        cboLogin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "username", "password" }));
         cboLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboLoginActionPerformed(evt);
@@ -636,7 +641,7 @@ public class Management extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab4", jPanel12);
 
-        cboCus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        cboCus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Customer_ID     ", "Customer_Name", "Customer_Add", "Customer_Tel", "Customer_Email", "Customer_Gender", "Customer_Age" }));
 
         jButton5.setText("Search");
 
@@ -645,7 +650,7 @@ public class Management extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7"
+                "Customer_ID", "Customer_Name", "Customer_Add", "Customer_Tel", "Customer_Email", "Customer_Gender", "Customer_Age"
             }
         ));
         tblCus.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1806,18 +1811,38 @@ public class Management extends javax.swing.JFrame {
                 }
             }
     }//GEN-LAST:event_cboTMTableActionPerformed
+
+    private void txtLoginSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLoginSearchKeyTyped
+        
+        //JOptionPane.showMessageDialog(this, "ha ha");
+        ConnectionDetail();
+        if(cboTMTable.getSelectedItem() == "Select" || cboLogin.getSelectedIndex() == -1){}
+        else{ 
+            try{
+                con = DriverManager.getConnection(url, username, password);
+                String sql = "select * from login where username like '%" + cboLogin.getSelectedItem() + "%'";
+                rs =  pstmt.executeQuery(sql);
+                DefaultTableModel m = (DefaultTableModel)tblLogin.getModel();
+                m.setRowCount(0);
+                Object [] row = new Object[2];
+                
+                while(rs.next()){ 
+                    count++;
+                    row [0] = rs.getString("username");
+                    row [1] = rs.getString("password");
+                    m.addRow(row);
+                    
+                }
+                tblLogin.setModel(m);
+            }catch(Exception e){ 
+                JOptionPane.showMessageDialog(this, e);
+            }
+        }
+    }//GEN-LAST:event_txtLoginSearchKeyTyped
 //import javax.swing.JOptionPane;
 //import java.sql.DriverManager;
 //import java.sql.*;
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     /**
      * @param args the command line arguments
