@@ -35,7 +35,7 @@ public class Management extends javax.swing.JFrame {
         url = "jdbc:mysql://localhost:3306/hdit_b"; 
         driver = "com.mysql.jdbc.Driver";
         username = "root"; 
-        password = "mink123";
+        password = "Wai09787";
     }
     
     Connection con = null;
@@ -1335,43 +1335,58 @@ public class Management extends javax.swing.JFrame {
     }//GEN-LAST:event_cboColumnActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-                                                  
+                                                 
         String tName = txtName.getText();
-        
+
+        // Ensure ConnectionDetail is properly established
         ConnectionDetail();
-        
-        try{ 
+
+        try { 
             con = DriverManager.getConnection(url, username, password);
-            StringBuilder sql = new StringBuilder("create table " + tName + " (");
-            
-            for (java.awt.Component component : jPanel6.getComponents()) {
+            StringBuilder sql = new StringBuilder("CREATE TABLE " + tName + " (");
+
+            // Debugging: Check the number of components in jPanel6
+            JOptionPane.showMessageDialog(this, "Component count in jPanel6: " + jPanel6.getComponentCount());
+
+            /*for (java.awt.Component component : jPanel6.getComponents()) {
+                if (component instanceof javax.swing.JPanel) {*/
+                    javax.swing.JPanel panel = jPanel6;
+                    for(int i=0;i< jPanel6.getComponentCount(); i+=5)
+                    // Ensure the panel has the expected number of components
+                    if (panel.getComponentCount() >= 5) {
+                        String columnName = ((javax.swing.JTextField) panel.getComponent(i+1)).getText();
+                        String columnType = ((javax.swing.JComboBox<?>) panel.getComponent(i+2)).getSelectedItem().toString();
+                        boolean isNotNull = ((javax.swing.JCheckBox) panel.getComponent(i+3)).isSelected();
+                        boolean isPrimaryKey = ((javax.swing.JCheckBox) panel.getComponent(i+4)).isSelected();
+
+                        sql.append(columnName).append(" ").append(columnType);
+
+                        if (isNotNull) {
+                            sql.append(" NOT NULL");
+                        }
+                        if (isPrimaryKey) {
+                            sql.append(" PRIMARY KEY");
+                        }
+                        sql.append(", ");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Panel does not have the expected number of components.");
+                    }
                 
-                    javax.swing.JPanel panel = (javax.swing.JPanel) component;
-                    //String columnName = ((javax.swing.JLabel) panel.getComponent(0)).getText();
-                    String columnName = ((javax.swing.JTextField) panel.getComponent(1)).getText();
-                    String columnType = ((javax.swing.JComboBox<?>) panel.getComponent(2)).getSelectedItem().toString();
-                    boolean isNotNull = ((javax.swing.JCheckBox) panel.getComponent(3)).isSelected();
-                    boolean isPrimaryKey = ((javax.swing.JCheckBox) panel.getComponent(4)).isSelected();
-                        
-                    
-                    sql.append(columnName).append(" ").append(columnType);
-                    
-                    if (isNotNull) {
-                        sql.append(" NOT NULL");
-                    }
-                    if (isPrimaryKey) {
-                        sql.append(" PRIMARY KEY");
-                    }
-                    sql.append(", ");      
-            }  
             
-            sql.setLength(sql.length() - 2);
+
+            // Remove the last comma and space
+            if (sql.length() > 2) {
+                sql.setLength(sql.length() - 2);
+            }
             sql.append(")");
+
+            // Debugging: Check the generated SQL statement
+            JOptionPane.showMessageDialog(this, "SQL: " + sql.toString());
+
             pstmt = con.prepareStatement(sql.toString());
             pstmt.execute();
             JOptionPane.showMessageDialog(this, "Table Created Successfully!");
-        }
-        catch(Exception e){ 
+        } catch (Exception e) { 
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_btnCreateActionPerformed
