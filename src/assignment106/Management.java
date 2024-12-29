@@ -15,6 +15,9 @@ import javax.swing.JOptionPane;
 import java.sql.ResultSet; 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 /**
@@ -30,6 +33,7 @@ public class Management extends javax.swing.JFrame {
         initComponents();
         showLogin();
         fillcomboTName();
+        fillcomboOTName();
     }
     
     private void fillcomboTName(){
@@ -40,17 +44,47 @@ public class Management extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/repairdb", "root", "mink123");
             DatabaseMetaData dbmd = con.getMetaData();
             String[] name= {"TABLE"};
-            rs = null;
+            
             rs = dbmd.getTables("repairdb", null, "%", name);
+            
+            String[] excludeTables = {"user_login", "customer", "tv_products_and_services"}; 
+            Set<String> excludeSet = new HashSet<>(Arrays.asList(excludeTables));
+            
             while(rs.next()){
                 
-                cboTMTable.addItem(rs.getString("Table_Name"));
+                String tableName = rs.getString("TABLE_NAME"); 
+                if (!excludeSet.contains(tableName)) {
+                 cboTMTable.addItem(tableName);
+                }
                 
             }
+            DisplayDataTM();
         } catch (Exception e) {JOptionPane.showMessageDialog(this, e);}
     }
     
-    
+    private void fillcomboOTName(){
+        try {
+            cboOT.removeAllItems();
+            cboOT.addItem("Select");
+            Class.forName("com.mysql.jdbc.Driver"); 
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/repairdb", "root", "mink123");
+            DatabaseMetaData dbmd = con.getMetaData();
+            String[] name= {"TABLE"};
+            
+            rs = dbmd.getTables("repairdb", null, "%", name);
+            
+            String[] excludeTables = {"user_login", "customer", "tv_products_and_services"}; 
+            Set<String> excludeSet = new HashSet<>(Arrays.asList(excludeTables));
+            
+            while(rs.next()){
+                
+                String tableName = rs.getString("TABLE_NAME"); 
+                if (!excludeSet.contains(tableName)) {
+                 cboOT.addItem(tableName);
+                }
+            }
+        } catch (Exception e) {JOptionPane.showMessageDialog(this, e);}
+    }
     
     public void ConnectionDetail(){
         url = "jdbc:mysql://localhost:3306/repairdb"; 
@@ -266,6 +300,14 @@ public class Management extends javax.swing.JFrame {
         btnTMDeleteC = new javax.swing.JButton();
         btnTMDropT = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
+        cboOT = new javax.swing.JComboBox<>();
+        jLabel28 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tblOT = new javax.swing.JTable();
+        jPanel8 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -933,7 +975,7 @@ public class Management extends javax.swing.JFrame {
                         .addComponent(btnProductUpdate)
                         .addGap(190, 190, 190)
                         .addComponent(btnProductDelete))
-                    .addGroup(jPanel15Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
                         .addComponent(cboProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtProductSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1194,7 +1236,7 @@ public class Management extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addComponent(jLabel23)
                             .addGap(39, 39, 39)
-                            .addComponent(cboTMTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cboTMTable, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addComponent(jLabel24)
                             .addGap(33, 33, 33)
@@ -1238,15 +1280,89 @@ public class Management extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab5", jPanel4);
 
+        cboOT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        cboOT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboOTActionPerformed(evt);
+            }
+        });
+
+        jLabel28.setText("Table Name");
+
+        tblOT.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane6.setViewportView(tblOT);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 654, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 239, Short.MAX_VALUE)
+        );
+
+        jButton1.setText("Add");
+
+        jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Delete");
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 770, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel28)
+                        .addGap(42, 42, 42)
+                        .addComponent(cboOT, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                            .addComponent(jButton1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2)
+                            .addGap(219, 219, 219)
+                            .addComponent(jButton4))
+                        .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 551, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboOT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel28))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton4))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab6", jPanel7);
@@ -2078,6 +2194,24 @@ public class Management extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_txtCusSearchKeyReleased
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cboOTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboOTActionPerformed
+        ConnectionDetail();
+        if(cboOT.getSelectedItem() == "Select" || cboOT.getSelectedIndex() == -1){}
+        else{
+            try {
+                    String sql = "Select * from "+cboOT.getSelectedItem()+";";
+                    PreparedStatement pstmt = con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+                    tblOT.setModel(TableModelSetter(rs));
+                } catch (Exception e) { JOptionPane.showMessageDialog(rootPane, cboOT.getSelectedItem());
+                }
+            }
+    }//GEN-LAST:event_cboOTActionPerformed
 //import javax.swing.JOptionPane;
 //import java.sql.DriverManager;
 //import java.sql.*;
@@ -2143,11 +2277,15 @@ public class Management extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboColumn;
     private javax.swing.JComboBox<String> cboCus;
     private javax.swing.JComboBox<String> cboLogin;
+    private javax.swing.JComboBox<String> cboOT;
     private javax.swing.JComboBox<String> cboProduct;
     private javax.swing.JComboBox<String> cboTMTable;
     private javax.swing.JComboBox<String> cboTMType;
     private javax.swing.JCheckBox chkTMN;
     private javax.swing.JCheckBox chkTMP;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2168,6 +2306,7 @@ public class Management extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2189,14 +2328,17 @@ public class Management extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tblCus;
     private javax.swing.JTable tblLogin;
+    private javax.swing.JTable tblOT;
     private javax.swing.JTable tblProduct;
     private javax.swing.JTable tblTM;
     private javax.swing.JTextField txtCName;
