@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.sun.tools.javac.Main;
 import java.sql.Statement;
-import java.sql.DatabaseMetaData;
+import java.sql.DatabaseMetaData;   
 import java.sql.Connection;
 import javax.swing.JOptionPane; 
 import java.sql.ResultSet; 
@@ -79,6 +79,7 @@ public class Login extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         txtUsername = new javax.swing.JTextField();
         btnLogin = new javax.swing.JButton();
@@ -98,8 +99,13 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setForeground(java.awt.Color.white);
-        jLabel1.setText("WELCOME");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
+        jLabel1.setText("Administration");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 250, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel4.setForeground(java.awt.Color.white);
+        jLabel4.setText("Log In");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 470));
 
@@ -222,7 +228,7 @@ public class Login extends javax.swing.JFrame {
         Connection con = null;
         Statement stmt = null;
         ResultSet rs = null;
-        String url = "jdbc:mysql://localhost:3306/hdit_b"; 
+        String url = "jdbc:mysql://localhost:3306/repairdb"; 
         String driver = "com.mysql.jdbc.Driver"; 
         String username = "root"; 
         String password = "mink123"; 
@@ -246,7 +252,7 @@ public class Login extends javax.swing.JFrame {
             } 
     
             
-            String sql = "select * from login where username = '"+user_name+"' and password = '"+pword+"'";
+            String sql = "select * from user_login where user_ID = '"+user_name+"' and password = '"+pword+"'";
             stmt.executeQuery(sql);
             rs = stmt.executeQuery(sql);
             int count = 0;
@@ -314,6 +320,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblExit;
